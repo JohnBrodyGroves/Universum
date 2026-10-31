@@ -1,5 +1,6 @@
 ## October 31st, 2026
-- Line
+- Backend lists of skills show up on the frontend.
+- 
 
 ## Ocotber 30th, 2026
 - Setup the Universum Repository in Github, Local, and VSCODE.
