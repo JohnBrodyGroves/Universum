@@ -1,0 +1,28 @@
+Universum learning content license
+==================================
+
+The code in this repository is licensed under the GNU Affero General Public
+License v3.0 (see LICENSE).
+
+The learning content is licensed separately, under the Creative Commons
+Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0):
+https://creativecommons.org/licenses/by-sa/4.0/
+
+"Learning content" means everything in the content/ folder: lessons,
+practice questions, answers, hints, explanations and images.
+
+Copyright (c) 2026 the Universum contributors.
+
+You are free to share and adapt this content for any purpose, including
+commercially, as long as you:
+  - give credit to Universum and link to this repository, and
+  - release your changed version under the same CC BY-SA 4.0 license.
+
+Third-party material
+--------------------
+Some content is adapted from other openly licensed sources. That material
+keeps its original license, and each such file credits its source at the top.
+Sources used so far:
+
+  (none yet; add one line per source, for example:
+   "OpenStax Prealgebra 2e, CC BY 4.0, https://openstax.org/details/books/prealgebra-2e")
