@@ -2,7 +2,8 @@
 - Backend lists of skills show up on the frontend.
 - FastAPI serves the built frontend from frontend/dist so one command starts everything.
 - Added a 'make dev' and 'run.sh' script with setup steps in the README file.
-- 
+- GitHub Actions added and tested with the new CI workflow.
+
 
 ## Ocotber 30th, 2026
 - Setup the Universum Repository in Github, Local, and VSCODE.
