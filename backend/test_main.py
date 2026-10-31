@@ -8,7 +8,7 @@ client = TestClient(app)
 def test_health():
     response = client.get("/api/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "Ok"} 
+    assert response.json() == {"status": "ok"} 
 
 def test_skills():
     response = client.get("/api/skills")
