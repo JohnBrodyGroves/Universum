@@ -1,0 +1,15 @@
+id: whole-number-operations
+title: Whole number operations
+branch: Arithmetic
+prerequisites: []
+
+questions:
+  - type: numeric
+    prompt: "A bus has 38 seats and 27 people are on it. How many seats are empty?"
+    answer: "11"
+    explanation: "Subtract the people from the seats: 38 - 27 = 11. If you added, reread what the question asks for."
+  - type: choice
+    prompt: "A box holds 12 eggs. How many eggs are in 7 boxes?"
+    choices: ["19", "74", "84", "96"]
+    answer: "84"
+    explanation: "Each box has 12, and there are 7 boxes, so multiply: 12 x 7 = 84. 19 comes from adding instead of multiplying."

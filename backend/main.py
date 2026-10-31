@@ -3,6 +3,8 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
+from content import load_skills
+
 app = FastAPI()
 
 
@@ -11,21 +13,24 @@ def health():
     return {"status": "ok"}
 
 
-# shortcut: hard-coded until Phase 2 loads skills from the content/ folder
-SKILLS = [
-    {"id": "whole-numbers", "title": "Whole numbers", "prerequisites": []},
-    {"id": "fractions", "title": "Fractions", "prerequisites": ["whole-numbers"]},
-    {"id": "decimals", "title": "Decimals", "prerequisites": ["fractions"]},
-]
+SKILLS = load_skills()
 
 
 @app.get("/api/skills")
 def skills():
-    return SKILLS
+    # Only the summary: never send answers to the browser
+    return [
+        {
+            "id": skill["id"],
+            "title": skill["title"],
+            "branch": skill["branch"],
+            "prerequisites": skill["prerequisites"],
+        }
+        for skill in SKILLS
+    ]
 
 
 # Serve the built frontend (after `npm run build`). Must come after the /api routes.
 FRONTEND_DIST = Path(__file__).parent.parent / "frontend" / "dist"
 if FRONTEND_DIST.is_dir():
     app.mount("/", StaticFiles(directory=FRONTEND_DIST, html=True), name="frontend")
-    
