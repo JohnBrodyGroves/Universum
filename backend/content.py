@@ -2,6 +2,8 @@ from pathlib import Path
 
 import yaml
 
+from generators import GENERATORS
+
 CONTENT_DIR = Path(__file__).parent.parent / "content"
 REQUIRED_FIELDS = ["id", "title", "branch", "prerequisites", "questions"]
 
@@ -34,6 +36,9 @@ def validate_skills(skills):
         for prereq in skill.get("prerequisites", []):
             if prereq not in ids:
                 errors.append(f"{name}: prerequisite '{prereq}' does not exist")
+        for generator in skill.get("generators", []):
+            if generator not in GENERATORS:
+                errors.append(f"{name}: generator '{generator}' does not exist")
         for number, question in enumerate(skill.get("questions", []), start=1):
             for field in ["type", "prompt", "answer", "explanation"]:
                 if field not in question:

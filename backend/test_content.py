@@ -43,3 +43,9 @@ def test_choice_answer_must_be_a_choice():
         {"type": "choice", "prompt": "Pick", "choices": ["1", "2"], "answer": "3", "explanation": "x"},
     ]
     assert validate_skills([skill]) == ["a, question 1: the answer is not one of the choices"]
+
+
+def test_unknown_generator_is_caught():
+    skill = make_skill("a")
+    skill["generators"] = ["no_such_generator"]
+    assert validate_skills([skill]) == ["a: generator 'no_such_generator' does not exist"]

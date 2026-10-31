@@ -2,6 +2,7 @@ id: whole-number-operations
 title: Whole number operations
 branch: Arithmetic
 prerequisites: []
+generators: [whole_number_groups]
 
 questions:
   - type: numeric

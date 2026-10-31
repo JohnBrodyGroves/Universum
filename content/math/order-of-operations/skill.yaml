@@ -2,6 +2,7 @@ id: order-of-operations
 title: Order of operations
 branch: Order of Operations
 prerequisites: [whole-number-operations]
+generators: [order_of_operations_basic]
 
 questions:
   - type: numeric
