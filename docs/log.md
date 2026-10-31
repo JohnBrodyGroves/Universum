@@ -1,5 +1,7 @@
 ## October 31st, 2026
 - Backend lists of skills show up on the frontend.
+- FastAPI serves the built frontend from frontend/dist so one command starts everything.
+- Added a 'make dev' and 'run.sh' script with setup steps in the README file.
 - 
 
 ## Ocotber 30th, 2026
