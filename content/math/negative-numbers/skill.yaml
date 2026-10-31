@@ -1,0 +1,10 @@
+id: negative-numbers
+title: Negative numbers
+branch: Negative Numbers
+prerequisites: [whole-number-operations, order-of-operations]
+
+questions:
+  - type: numeric
+    prompt: "What is 2 + 3 x 4?"
+    answer: "14"
+    explanation: "Multiply before you add: 3 x 4 = 12, then 2 + 12 = 14. If you got 20, you added first."
