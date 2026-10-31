@@ -8,7 +8,7 @@ app = FastAPI()
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "fine"}
 
 
 # shortcut: hard-coded until Phase 2 loads skills from the content/ folder
