@@ -4,8 +4,8 @@
 
 ## The Learning Loop
 - Learn: Read short lessons about the one skill along with visual materials and examples.
-- Practice: Answer questions and get instant feedback. No hint simply an explanation of the error and the specific skill that needs to be developed.
-- Prove Competence: Competence criteria in Universum will be 100% for a skill across three seperate days.
+- Practice: Answer questions and get instant feedback. No hint simply an explanation of the error and the specific skill that needs to be developed. Practice problems will be unlimited.
+- Prove Competence: Competence criteria in Universum will be 100% for a skill across three seperate days. This skill competency test will be in a 10-question format.
 - Growth: Progression will unlock the appropriate next skill/skills for the loop to start again.
 
 ## Scope Focus
