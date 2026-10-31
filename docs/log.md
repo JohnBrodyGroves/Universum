@@ -1,6 +1,10 @@
+## October 31st, 2026
+- Line
 
-## November 30th, 2026
+## Ocotber 30th, 2026
 - Setup the Universum Repository in Github, Local, and VSCODE.
 - This includes the frontend, backend, and docs folder for the Universum repository.
 - Installed tools, both hello apps are running, and completed first push to GitHub.
 - Added more context to the log doc and spec doc
+- Added two pytest endpoints in the backend
+- API/skills added
