@@ -1,3 +1,6 @@
+## November 1st, 2026
+- Gracie was here. No work was accomplished.
+
 ## October 31st, 2026
 - Backend lists of skills show up on the frontend.
 - FastAPI serves the built frontend from frontend/dist so one command starts everything.
