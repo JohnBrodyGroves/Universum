@@ -1,3 +1,6 @@
+## November 6th, 2026
+- Made logo sketch and added it the Universum local folder.
+
 ## November 1st, 2026
 - Gracie was here. No work was accomplished.
 

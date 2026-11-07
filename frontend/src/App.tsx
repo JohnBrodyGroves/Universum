@@ -21,16 +21,20 @@ function App() {
   }, [])
 
   return (
-    <main>
-      <h1>Universum</h1>
-      <h2>Math skills</h2>
-      {error && <p role="alert">Could not load skills: {error}</p>}
-      <ul>
-        {skills.map((skill) => (
-          <li key={skill.id}>{skill.title}</li>
-        ))}
-      </ul>
-    </main>
+    <div className="app">
+      <nav className="rail" aria-label="Main Menu"></nav>
+      <main>
+        <h1>Universum</h1>
+        <h2>Math skills</h2>
+        {error && <p role="alert">Could not load skills: {error}</p>}
+        <ul>
+          {skills.map((skill) => (
+            <li key={skill.id}>{skill.title}</li>
+          ))}
+        </ul>
+      </main>
+      <aside></aside>
+    </div>
   )
 }
 
