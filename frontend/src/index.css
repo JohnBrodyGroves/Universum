@@ -70,3 +70,67 @@ body,
 main {
   padding: 28px 32px;
 }
+
+aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.steps li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.steps li + li::before {
+  content: '';
+  width: 3px;
+  height: 40px;
+  background: var(--line);
+}
+
+.dot {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.step-name {
+  font-size: 13px;
+  color: var(--muted)
+}
+
+.steps li.done .dot {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.steps li.done + li::before {
+  background: var(--ink);
+}
+
+.steps li.current .dot {
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.steps li.locked .dot {
+  border-style: dashed;
+  border-color: var(--line);
+  color: var(--muted)
+}
