@@ -55,6 +55,10 @@ body,
   cursor: pointer;
 }
 
+.rail .rail-bottom {
+  margin-top: auto;
+}
+
 .rail button:hover,
 .rail button[aria-current='page'] {
   background: var(--paper);
