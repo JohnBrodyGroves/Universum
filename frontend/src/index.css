@@ -35,6 +35,36 @@ body,
 
 .rail {
   background: var(--rail);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding-block: 24px;
+}
+
+.rail button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.rail button:hover,
+.rail button[aria-current='page'] {
+  background: var(--paper);
+}
+
+.rail svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
 }
 
 main {

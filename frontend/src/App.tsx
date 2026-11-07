@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Rail from './components/Rail'
 
 type Skill = {
   id: string
@@ -22,7 +23,7 @@ function App() {
 
   return (
     <div className="app">
-      <nav className="rail" aria-label="Main Menu"></nav>
+      <Rail current="lesson" />
       <main>
         <h1>Universum</h1>
         <h2>Math skills</h2>
