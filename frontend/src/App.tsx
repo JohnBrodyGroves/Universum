@@ -6,6 +6,7 @@ import logo from './assets/logo.png'
 type Skill = {
   id: string
   title: string
+  branch: string
   prerequisites: string[]
 }
 
@@ -22,19 +23,20 @@ function App() {
       .then((data: Skill[]) => setSkills(data))
       .catch((err: Error) => setError(err.message))
   }, [])
-
+  const current = skills.find((skill) => skill.prerequisites.length === 0)
   return (
     <div className="app">
       <Rail current="lesson" />
       <main>
-        <h1>Universum</h1>
-        <h2>Math skills</h2>
         {error && <p role="alert">Could not load skills: {error}</p>}
-        <ul>
-          {skills.map((skill) => (
-            <li key={skill.id}>{skill.title}</li>
-          ))}
-        </ul>
+        {current && (
+          <header className="skill-head">
+            <p className="eyebrow">
+              {current.branch} · Skill {skills.indexOf(current) + 1} of {skills.length}
+            </p>
+            <h1>{current.title}</h1>
+          </header>
+        )}
       </main>
       <aside>
         <img className="logo" src={logo} alt="Universum" />

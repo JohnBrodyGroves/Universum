@@ -140,3 +140,19 @@ aside {
   height: auto;
   margin-bottom: 32px;
 }
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.skill-head h1 {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 800;
+  padding-bottom: 12px;
+  border-bottom: 4px solid var(--ink);
+}
