@@ -113,7 +113,7 @@ aside {
 
 .step-name {
   font-size: 13px;
-  color: var(--muted)
+  color: var(--muted);
 }
 
 .steps li.done .dot {
@@ -132,5 +132,11 @@ aside {
 .steps li.locked .dot {
   border-style: dashed;
   border-color: var(--line);
-  color: var(--muted)
+  color: var(--muted);
+}
+
+.logo {
+  width: 96px;
+  height: auto;
+  margin-bottom: 32px;
 }

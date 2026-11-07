@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Rail from './components/Rail'
 import StepProgress from './components/StepProgress'
+import logo from './assets/logo.png'
 
 type Skill = {
   id: string
@@ -36,6 +37,7 @@ function App() {
         </ul>
       </main>
       <aside>
+        <img className="logo" src={logo} alt="Universum" />
         <StepProgress current={1} done={[0]} />
       </aside>
     </div>
