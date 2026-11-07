@@ -31,7 +31,27 @@ def test_one_skill_has_lesson():
     assert data["title"] == "Whole number operations"
     assert "four operations" in data["lesson"]
     assert "questions" not in data
-
+    
 def test_unknown_skill_is_404():
     response = client.get("/api/skills/not-a-skill")
+    assert response.status_code == 404
+
+def test_question_never_includes_answer():
+    for _ in range(20):
+        data = client.get("/api/skills/whole-number-operations/question").json()
+        assert data["prompt"]
+        assert "answer" not in data
+        assert "explanation" not in data
+
+def test_answer_right_and_wrong():
+    url = "/api/skills/whole-number-operations/answer"
+    right = client.post(url, json={"question_id": "written-1", "answer": "84"})
+    assert right.json() == {"correct": True}
+    wrong = client.post(url, json={"question_id": "written-1", "answer": "19"})
+    assert wrong.json()["correct"] is False
+    assert "multiply" in wrong.json()["explanation"]
+
+def test_answer_with_bad_question_id_is_404():
+    url = "/api/skills/whole-number-operations/answer"
+    response = client.post(url, json={"question_id": "nonsense", "answer": "1"})
     assert response.status_code == 404
