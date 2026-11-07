@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Rail from './components/Rail'
 import StepProgress from './components/StepProgress'
+import Practice from './components/Practice'
 import logo from './assets/logo.png'
 import Markdown from 'react-markdown'
 
@@ -52,6 +53,7 @@ function App() {
         <div className="lesson">
           <Markdown>{lesson}</Markdown>
         </div>
+        {current && <Practice skillId={current.id}/>}
       </main>
       <aside>
         <img className="logo" src={logo} alt="Universum" />

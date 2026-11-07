@@ -7,6 +7,7 @@
   --rail: #e4e5ea;
   --line: #c9cbd3;
   --accent: #2b3a8f;
+  --amber: #c27c0e;
 }
 
 body {
@@ -160,4 +161,70 @@ aside {
 .lesson {
   max-width: 65ch;
   line-height: 1.6;
+}
+
+.practice {
+  max-width: 65ch;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 2px solid var(--line);
+}
+
+.prompt {
+  font-size: 22px;
+}
+
+.answer-box {
+  font: inherit;
+  font-size: 22px;
+  width: 8em;
+  padding: 8px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+.choices {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.practice button {
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 24px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.practice button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.feedback {
+  margin-top: 20px;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border-left: 6px solid;
+}
+
+.feedback.correct {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.feedback.not-quite {
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 15%, transparent);
+}
+
+.verdict {
+  font-weight: 700;
+  margin-top: 0;
 }
