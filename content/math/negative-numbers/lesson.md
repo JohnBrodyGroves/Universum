@@ -1,5 +1,3 @@
-# Negative Numbers
-
 When a problem has a negative number in it follow these rules:
 
 1. A positive number added by a negative number will subtract the negative number against the positive.

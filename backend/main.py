@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 
 from content import load_skills
@@ -15,7 +15,6 @@ def health():
 
 SKILLS = load_skills()
 
-
 @app.get("/api/skills")
 def skills():
     # Only the summary: never send answers to the browser
@@ -29,6 +28,12 @@ def skills():
         for skill in SKILLS
     ]
 
+@app.get("/api/skills/{skill_id}")
+def one_skill(skill_id: str):
+    for skill in SKILLS:
+        if skill["id"] == skill_id:
+            return {"id": skill["id"], "title": skill["title"], "lesson": skill["lesson"]}
+    raise HTTPException(status_code=404, detail="No skill with that id")
 
 # Serve the built frontend (after `npm run build`). Must come after the /api routes.
 FRONTEND_DIST = Path(__file__).parent.parent / "frontend" / "dist"

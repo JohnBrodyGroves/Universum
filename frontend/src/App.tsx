@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Rail from './components/Rail'
 import StepProgress from './components/StepProgress'
 import logo from './assets/logo.png'
+import Markdown from 'react-markdown'
 
 type Skill = {
   id: string
@@ -13,6 +14,7 @@ type Skill = {
 function App() {
   const [skills, setSkills] = useState<Skill[]>([])
   const [error, setError] = useState('')
+  const [lesson, setLesson] = useState('')
 
   useEffect(() => {
     fetch('/api/skills')
@@ -24,6 +26,16 @@ function App() {
       .catch((err: Error) => setError(err.message))
   }, [])
   const current = skills.find((skill) => skill.prerequisites.length === 0)
+  useEffect(() => {
+    if (!current) return
+    fetch(`/api/skills/${current.id}`)
+      .then((response) => {
+        if (!response.ok) throw new Error(`Server said ${response.status}`)
+        return response.json()
+      })
+      .then((data: { lesson: string }) => setLesson(data.lesson))
+      .catch((err: Error) => setError(err.message))
+  }, [current])
   return (
     <div className="app">
       <Rail current="lesson" />
@@ -37,6 +49,9 @@ function App() {
             <h1>{current.title}</h1>
           </header>
         )}
+        <div className="lesson">
+          <Markdown>{lesson}</Markdown>
+        </div>
       </main>
       <aside>
         <img className="logo" src={logo} alt="Universum" />

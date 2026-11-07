@@ -1,5 +1,3 @@
-# Order of operations
-
 When a problem has more than one operation, do them in this order:
 
 1. Parentheses

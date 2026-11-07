@@ -93,7 +93,7 @@ aside {
   align-items: center;
 }
 
-.steps li + li::before {
+.steps li+li::before {
   content: '';
   width: 3px;
   height: 40px;
@@ -121,7 +121,7 @@ aside {
   color: var(--paper);
 }
 
-.steps li.done + li::before {
+.steps li.done+li::before {
   background: var(--ink);
 }
 
@@ -155,4 +155,9 @@ aside {
   font-weight: 800;
   padding-bottom: 12px;
   border-bottom: 4px solid var(--ink);
+}
+
+.lesson {
+  max-width: 65ch;
+  line-height: 1.6;
 }
