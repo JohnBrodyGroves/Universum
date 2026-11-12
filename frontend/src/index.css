@@ -232,3 +232,136 @@ aside {
   font-weight: 700;
   margin-top: 0;
 }
+
+.tree h1 {
+  margin-top: 0;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 140px);
+}
+
+.map .ring {
+  fill: none;
+  stroke: var(--rail);
+  stroke-width: 2;
+}
+
+.map .path {
+  stroke: var(--line);
+  stroke-width: 2;
+}
+
+.map .center {
+  fill: var(--ink);
+}
+
+.map .center-label {
+  fill: var(--paper);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 22px;
+  text-anchor: middle;
+}
+
+.node-base {
+  fill: var(--paper);
+  stroke: var(--line);
+  stroke-width: 6;
+}
+
+.node-earned {
+  fill: none;
+  stroke-width: 6;
+}
+
+.node-label {
+  font-size: 15px;
+  text-anchor: middle;
+  fill: var(--ink);
+}
+
+.node.locked .node-base {
+  fill: var(--rail);
+}
+
+.node.locked .node-label {
+  fill: var(--muted);
+}
+
+.branch-label {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 24px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.tree h1 {
+  margin-top: 0;
+}
+ 
+.map {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 140px);
+}
+ 
+.map .ring {
+  fill: none;
+  stroke: var(--rail);
+  stroke-width: 2;
+}
+ 
+.map .path {
+  stroke: var(--line);
+  stroke-width: 2;
+}
+ 
+.map .center {
+  fill: var(--ink);
+}
+ 
+.map .center-label {
+  fill: var(--paper);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 22px;
+  text-anchor: middle;
+}
+ 
+.node-base {
+  fill: var(--paper);
+  stroke: var(--line);
+  stroke-width: 6;
+}
+ 
+.node-earned {
+  fill: none;
+  stroke-width: 6;
+}
+ 
+.node-label {
+  font-size: 15px;
+  text-anchor: middle;
+  fill: var(--ink);
+}
+ 
+.node.locked .node-base {
+  fill: var(--rail);
+}
+ 
+.node.locked .node-label {
+  fill: var(--muted);
+}
+ 
+.branch-label {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 24px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+ 
