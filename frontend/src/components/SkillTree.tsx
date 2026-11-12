@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useRef, useState } from 'react'
 
 type Skill = {
     id: string
@@ -54,7 +54,7 @@ function countSkills(group: Group): number {
 
 // "whole-number-operations" -> "whole number operations"
 function niceName(folder: string) {
-    const words = folder.replace(/-/g, '')
+    const words = folder.replace(/-/g, ' ')
     return words[0].toUpperCase() + words.slice(1)
 }
 
@@ -98,7 +98,7 @@ function point(angle: number, ring: number) {
     return { x: Math.cos(angle) * ring * RING, y: Math.sin(angle) * ring * RING }
 }
 
-function SkillNode({ spot, color }: { spot: Spot; color: string }) {
+function SkillNode({ spot, color, onOpen }: { spot: Spot; color: string; onOpen: (id: string) => void }) {
     const { tile } = spot
     const { x, y } = point(spot.angle, spot.ring)
     const locked = tile.needs.length > 0
@@ -110,28 +110,36 @@ function SkillNode({ spot, color }: { spot: Spot; color: string }) {
     const earned = Array(tile.stage).fill(`${piece - 4} 4`).join(' ') + ` 0 ${2 * Math.PI * NODE}`
 
     return (
-        <g className={locked ? 'node locked' : 'node'} transform={`translate(${x} ${y})`} role="img" aria-label={`${tile.title}: ${status}`}>
+        <g
+            className={locked ? 'node locked' : 'node'}
+            transform={`translate(${x} ${y})`}
+            role={locked ? 'img' : 'button'}
+            aria-label={`${tile.title}: ${status}`}
+            tabIndex={locked ? undefined : 0}
+            onClick={locked ? undefined : () => onOpen(tile.id)}
+            onKeyDown={(event) => {
+                if (!locked && (event.key === 'Enter' || event.key === ' ')) onOpen(tile.id)
+            }}
+        >
             <title>{`${tile.title}: ${status}`}</title>
             <circle r={NODE} className="node-base" strokeDasharray={`${piece - 4} 4`} transform="rotate(-90)" />
             <circle r={NODE} className="node-earned" stroke={color} strokeDasharray={earned} transform="rotate(-90)" />
             <text y={NODE + 18} className="node-label">{tile.title}</text>
-        </g>        
+        </g>
     )
 }
 
-function SkillTree({ skills }: { skills: Skill[] }) {
-    const [progress, setProgress] = useState<Record<string, number>>({})
-    const [error, setError] = useState('')
+type Props = {
+    skills: Skill[]
+    progress: Record<string, number>
+    onOpen: (id: string) => void
+}
 
-    useEffect(() => {
-        fetch('/api/progress')
-            .then((response) => {
-                if (!response.ok) throw new Error(`Server said ${response.status}`)
-                return response.json()
-            })
-            .then((data: Record<string, number>) => setProgress(data))
-            .catch((err: Error) => setError(err.message))
-    }, [])
+function SkillTree({ skills, progress, onOpen }: Props) {
+    // What part of the map is on screen: how far zoomed in, and which point is in the middle
+    const [view, setView] = useState({ zoom: 1, x: 0, y: 0 })
+    const drag = useRef({ x: 0, y: 0, moved: false })
+
     const titles = Object.fromEntries(skills.map((skill) => [skill.id, skill.title]))
 
     const tiles = skills.map((skill) => ({
@@ -155,12 +163,33 @@ function SkillTree({ skills }: { skills: Skill[] }) {
 
     const outer = Math.max(...spots.map((spot) => spot.ring)) + 1
     const size = (outer + 0.8) * RING
+    const half = size / view.zoom
 
     return (
         <section className="tree">
             <h1>Skill tree</h1>
-            {error && <p role="alert">Could not load your progress: {error}</p>}
-            <svg className="map" viewBox={`${-size} ${-size} ${size * 2} ${size * 2}`}>
+            <p className="map-help">Drag to move · Click a skill to open it</p>
+            <div className="map-tools">
+                <button type="button" aria-label="Zoom in" onClick={() => setView({ ...view, zoom: Math.min(view.zoom * 1.4, 6) })}>+</button>
+                <button type="button" aria-label="Zoom out" onClick={() => setView({ ...view, zoom: Math.max(view.zoom / 1.4, 0.5) })}>−</button>
+                <button type="button" onClick={() => setView({ zoom: 1, x: 0, y: 0 })}>Fit</button>
+            </div>
+            <svg
+                className="map"
+                viewBox={`${view.x - half} ${view.y - half} ${half * 2} ${half * 2}`}
+                onPointerDown={(event) => {
+                    drag.current = { x: event.clientX, y: event.clientY, moved: false }
+                }}
+                onPointerMove={(event) => {
+                    if (event.buttons !== 1) return // only while the mouse button is held down
+                    const dx = event.clientX - drag.current.x
+                    const dy = event.clientY - drag.current.y
+                    if (!drag.current.moved && Math.hypot(dx, dy) < 5) return // a tiny wobble is still a click
+                    drag.current = { x: event.clientX, y: event.clientY, moved: true }
+                    const perPixel = (half * 2) / event.currentTarget.getBoundingClientRect().width
+                    setView({ ...view, x: view.x - dx * perPixel, y: view.y - dy * perPixel })
+                }}
+            >
                 {Array.from({ length: outer - 1 }, (_, i) => (
                     <circle key={i} r={(i + 1) * RING} className="ring" />
                 ))}
@@ -189,7 +218,16 @@ function SkillTree({ skills }: { skills: Skill[] }) {
                 <circle r={NODE * 1.8} className="center" />
                 <text className="center-label" dy="0.35em">You</text>
 
-                {spots.map((spot) => <SkillNode key={spot.tile.id} spot={spot} color={colorOf(spot.tile)} />)}
+                {spots.map((spot) => (
+                    <SkillNode
+                        key={spot.tile.id}
+                        spot={spot}
+                        color={colorOf(spot.tile)}
+                        onOpen={(id) => {
+                            if (!drag.current.moved) onOpen(id) // the end of a drag is not a click
+                        }}
+                    />
+                ))}
             </svg>
         </section>
     )

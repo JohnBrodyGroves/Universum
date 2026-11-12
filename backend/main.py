@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from content import load_skills
 from practice import check_answer, find_question, pick_question
-from progress import connect, get_progress
+from progress import connect, get_progress, record_answer
 
 app = FastAPI()
 
@@ -63,10 +63,12 @@ def answer(skill_id: str, body: Answer):
     question = find_question(get_skill(skill_id), body.question_id)
     if question is None:
         raise HTTPException(status_code=404, detail="No question with that id")
-    if check_answer(question, body.answer):
-        return {"correct": True}
+    correct = check_answer(question, body.answer)
+    stage = record_answer(DB, LEARNER, skill_id, correct)
+    if correct:
+        return {"correct": True, "stage": stage}
     #No hints: say what went wrong and which skill to work on
-    return {"correct": False, "explanation": question["explanation"], "skill": skill_id}
+    return {"correct": False, "explanation": question["explanation"], "skill": skill_id, "stage": stage}
 
 DB = connect()
 LEARNER = "me" #shortcut: one learner until name + Pin login exists

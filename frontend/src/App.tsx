@@ -18,6 +18,8 @@ function App() {
   const [skills, setSkills] = useState<Skill[]>([])
   const [error, setError] = useState('')
   const [lesson, setLesson] = useState('')
+  const [progress, setProgress] = useState<Record<string, number>>({})
+  const [openId, setOpenId] = useState('')
   const [screen, setScreen] =useState<'lesson' | 'tree'> ('lesson')
 
   useEffect(() => {
@@ -29,7 +31,17 @@ function App() {
       .then((data: Skill[]) => setSkills(data))
       .catch((err: Error) => setError(err.message))
   }, [])
-  const current = skills.find((skill) => skill.prerequisites.length === 0)
+  useEffect(() => {
+    fetch('/api/progress')
+      .then((response) => {
+        if (!response.ok) throw new Error(`Server said ${response.status}`)
+        return response.json()
+      })
+      .then((data: Record<string, number>) => setProgress(data))
+      .catch((err: Error) => setError(err.message))
+  }, [])
+  // The skill picked on the tree, or the first starting skill until one is picked
+  const current = skills.find((skill) => skill.id === openId) ?? skills.find((skill) => skill.prerequisites.length === 0)
   useEffect(() => {
     if (!current) return
     fetch(`/api/skills/${current.id}`)
@@ -40,12 +52,22 @@ function App() {
       .then((data: { lesson: string }) => setLesson(data.lesson))
       .catch((err: Error) => setError(err.message))
   }, [current])
+  const stage = current ? progress[current.id] ?? 0 : 0
   return (
     <div className="app">
       <Rail current={screen} onPick={setScreen} />
       <main>
         {error && <p role="alert">Could not load skills: {error}</p>}
-        {screen === 'tree' && <SkillTree skills={skills} />}
+        {screen === 'tree' && (
+          <SkillTree
+            skills={skills}
+            progress={progress}
+            onOpen={(id) => {
+              setOpenId(id)
+              setScreen('lesson')
+            }}
+          />
+        )}
         {screen === 'lesson' && (
           <>
             {current && (
@@ -59,13 +81,19 @@ function App() {
             <div className="lesson">
               <Markdown>{lesson}</Markdown>
             </div>
-            {current && <Practice skillId={current.id}/>}
+            {current && (
+              <Practice
+                key={current.id}
+                skillId={current.id}
+                onStage={(stage) => setProgress((old) => ({ ...old, [current.id]: stage }))}
+              />
+            )}
           </>
         )}
       </main>
       <aside>
         <img className="logo" src={logo} alt="Universum" />
-        {screen === 'lesson' && <StepProgress current={1} done={[0]} />}
+        {screen === 'lesson' && <StepProgress current={stage} done={Array.from({ length: stage }, (_, i) => i)} />}
       </aside>
     </div>
   )

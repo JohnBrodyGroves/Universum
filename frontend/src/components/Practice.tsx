@@ -7,11 +7,11 @@ type Question = {
     choices: string[] | null
 }
 
-type Result = { correct: boolean; explanation?: string }
+type Result = { correct: boolean; explanation?: string; stage: number }
 
-type Props = { skillId: string }
+type Props = { skillId: string; onStage: (stage: number) => void }
 
-function Practice({ skillId }: Props) {
+function Practice({ skillId, onStage }: Props) {
     const [question, setQuestion] = useState<Question | null>(null)
     const [answer, setAnswer] = useState('')
     const [result, setResult] = useState<Result | null>(null)
@@ -38,7 +38,10 @@ function Practice({ skillId }: Props) {
             body: JSON.stringify({ question_id: question.question_id, answer }),
         })
             .then((response) => response.json())
-            .then((data: Result) => setResult(data))
+            .then((data: Result) => {
+                setResult(data)
+                onStage(data.stage) // tell App, so the dots and the tree update
+            })
     }
 
     if (!question) return <p>Loading a question...</p>

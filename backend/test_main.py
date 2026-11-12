@@ -1,6 +1,10 @@
 from fastapi.testclient import TestClient
 
+import main
 from main import app
+from progress import connect
+
+main.DB = connect(":memory:")  # tests must never touch real learner data
 
 client = TestClient(app)
 
@@ -46,7 +50,7 @@ def test_question_never_includes_answer():
 def test_answer_right_and_wrong():
     url = "/api/skills/whole-number-operations/answer"
     right = client.post(url, json={"question_id": "written-1", "answer": "84"})
-    assert right.json() == {"correct": True}
+    assert right.json()["correct"] is True
     wrong = client.post(url, json={"question_id": "written-1", "answer": "19"})
     assert wrong.json()["correct"] is False
     assert "multiply" in wrong.json()["explanation"]

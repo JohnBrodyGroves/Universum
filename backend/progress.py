@@ -2,6 +2,7 @@ import sqlite3
 from pathlib import Path
 
 DB_PATH = Path(__file__).parent / "universum.db"
+PRACTICE_GOAL = 10 # Correct answers in total that finish practice
 
 
 def connect(db_path=DB_PATH):
@@ -14,6 +15,7 @@ def connect(db_path=DB_PATH):
             learner TEXT NOT NULL,
             skill_id TEXT NOT NULL,
             stage INTEGER NOT NULL,
+            correct INTEGER NOT NULL DEFAULT 0,
             PRIMARY KEY (learner, skill_id)
         )
         """
@@ -37,3 +39,31 @@ def set_stage(db, learner, skill_id, stage):
             """,
             (learner, skill_id, stage),
         )
+
+def record_answer(db, learner, skill_id, correct):
+    """Count one practice answer and level the learner up. Returns their stage afterwards."""
+    with db:
+        # Answering at all means the lesson is read: Learn is done, so stage 1
+        db.execute(
+            """
+            INSERT INTO progress (learner, skill_id, stage) VALUES (?, ?, 1)
+            ON CONFLICT (learner, skill_id) DO UPDATE SET stage = MAX(stage, 1)
+            """,
+            (learner, skill_id),
+        )
+        if correct:
+            db.execute(
+                "UPDATE progress SET correct = correct + 1 WHERE learner = ? AND skill_id = ?",
+                (learner, skill_id),
+            )
+        stage, total = db.execute(
+            "SELECT stage, correct FROM progress WHERE learner = ? AND skill_id = ?",
+            (learner, skill_id),
+        ).fetchone()
+        if stage < 2 and total >= PRACTICE_GOAL:
+            stage = 2
+            db.execute(
+                "UPDATE progress SET stage = 2 WHERE learner = ? AND skill_id = ?",
+                (learner, skill_id),
+            )
+    return stage

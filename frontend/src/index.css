@@ -364,4 +364,51 @@ aside {
   text-anchor: middle;
   dominant-baseline: middle;
 }
- 
+
+.tree {
+  position: relative;
+}
+
+.map {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.map-help {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.map-tools {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.map-tools button {
+  font: inherit;
+  font-weight: 700;
+  min-width: 44px;
+  height: 44px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--paper);
+  cursor: pointer;
+}
+
+.node[role='button'] {
+  cursor: pointer;
+}
+
+.node[role='button']:hover .node-base,
+.node[role='button']:focus-visible .node-base {
+  stroke: var(--ink);
+}
+
+.node:focus {
+  outline: none;
+}
