@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from content import load_skills
 from practice import check_answer, find_question, pick_question
+from progress import connect, get_progress
 
 app = FastAPI()
 
@@ -66,6 +67,13 @@ def answer(skill_id: str, body: Answer):
         return {"correct": True}
     #No hints: say what went wrong and which skill to work on
     return {"correct": False, "explanation": question["explanation"], "skill": skill_id}
+
+DB = connect()
+LEARNER = "me" #shortcut: one learner until name + Pin login exists
+
+@app.get("/api/progress")
+def learner_progress():
+    return get_progress(DB, LEARNER)
 
 # Serve the built frontend (after `npm run build`). Must come after the /api routes.
 FRONTEND_DIST = Path(__file__).parent.parent / "frontend" / "dist"

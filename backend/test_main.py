@@ -59,3 +59,9 @@ def test_answer_with_bad_question_id_is_404():
 def test_skills_have_path():
     skills = {s["id"]: s for s in client.get("/api/skills").json()}
     assert skills["whole-number-operations"]["path"] == ["mathematics", "arithmetic"]
+
+def test_progress_is_a_dict():
+    response = client.get("/api/progress")
+    assert response.status_code == 200
+    assert isinstance(response.json(), dict)
+    

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+
 type Skill = {
     id: string
     title: string
@@ -118,7 +120,18 @@ function SkillNode({ spot, color }: { spot: Spot; color: string }) {
 }
 
 function SkillTree({ skills }: { skills: Skill[] }) {
-    const progress: Record<string, number> = {}
+    const [progress, setProgress] = useState<Record<string, number>>({})
+    const [error, setError] = useState('')
+
+    useEffect(() => {
+        fetch('/api/progress')
+            .then((response) => {
+                if (!response.ok) throw new Error(`Server said ${response.status}`)
+                return response.json()
+            })
+            .then((data: Record<string, number>) => setProgress(data))
+            .catch((err: Error) => setError(err.message))
+    }, [])
     const titles = Object.fromEntries(skills.map((skill) => [skill.id, skill.title]))
 
     const tiles = skills.map((skill) => ({
@@ -146,6 +159,7 @@ function SkillTree({ skills }: { skills: Skill[] }) {
     return (
         <section className="tree">
             <h1>Skill tree</h1>
+            {error && <p role="alert">Could not load your progress: {error}</p>}
             <svg className="map" viewBox={`${-size} ${-size} ${size * 2} ${size * 2}`}>
                 {Array.from({ length: outer - 1 }, (_, i) => (
                     <circle key={i} r={(i + 1) * RING} className="ring" />
