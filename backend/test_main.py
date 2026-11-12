@@ -55,3 +55,7 @@ def test_answer_with_bad_question_id_is_404():
     url = "/api/skills/whole-number-operations/answer"
     response = client.post(url, json={"question_id": "nonsense", "answer": "1"})
     assert response.status_code == 404
+
+def test_skills_have_path():
+    skills = {s["id"]: s for s in client.get("/api/skills").json()}
+    assert skills["whole-number-operations"]["path"] == ["mathematics", "arithmetic"]

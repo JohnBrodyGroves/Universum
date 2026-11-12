@@ -26,6 +26,7 @@ def skills():
             "title": skill["title"],
             "branch": skill["branch"],
             "prerequisites": skill["prerequisites"],
+            "path": skill["path"],
         }
         for skill in SKILLS
     ]
